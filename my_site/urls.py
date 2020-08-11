@@ -21,12 +21,17 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', views.index, name='index'),
 	path('about', views.about, name='about'),
-	path('removePunctuation', views.removePunctuation, name='rempunc'),
-	path('capFirst', views.capFirst, name='capfirst'),
-	path('removeNewLine', views.removeNewLine, name='remnewline'),
-	path('removeSpace', views.removeSpace, name='remspace'),
-	path('charCount', views.charCount, name='charcount'),
-	path('favourites', views.favourites, name='favourites'),
+
+	# * This will be the single endpoint where all the requests will be handled
+	path('analyze', views.analyze, name='analyze'),
+	
+	# path('removePunctuation', views.removePunctuation, name='rempunc'),
+	# path('capFirst', views.capFirst, name='capfirst'),
+	# path('removeNewLine', views.removeNewLine, name='remnewline'),
+	# path('removeSpace', views.removeSpace, name='remspace'),
+	# path('charCount', views.charCount, name='charcount'),
+	# path('templateExample', views.templateExample, name='templateEx'),
+	# path('favourites', views.favourites, name='favourites'),
 	
 ]
 
