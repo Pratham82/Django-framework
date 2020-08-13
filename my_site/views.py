@@ -18,6 +18,7 @@ def analyze(request):
 	#* for printing the data that we get from the input
 	#* print(request.GET.get('text', 'default'))
 	inputText = request.POST.get('text', 'default')
+	unChangedInput = request.POST.get('text', 'default')
 	print(f'This is the input text provied :{inputText}')
 	
 	#*  For checking if the specified checkbox value is selected
@@ -33,9 +34,7 @@ def analyze(request):
 	removeExtraSpaceVal = request.POST.get('removeExtraSpace', 'default')
 	charCountVal = request.POST.get('charCount', 'default')
 
-	# print('All Caps val: ',allCapsVal)
-	# print('Remove new lines val: ',removeNewLines)
-	print('Remove space val: ', removeExtraSpaceVal)
+ 
 
 	#* Method for removing punctuations
 	if remmovePuncVal == 'on':
@@ -47,19 +46,19 @@ def analyze(request):
 				if char not in punctuations:
 					val += char 
 			return val
-		outputText = remPunc(inputText)
+		inputText = remPunc(inputText)
 		message = 'Remove Punctuations'
 	
 	#* Method for Capitalizing every character
-	elif allCapsVal == 'on':
+	if allCapsVal == 'on':
 		def allCaps(str):
 			return "".join(list(map((lambda c: c.capitalize()), list(str))))
 		
-		outputText = allCaps(inputText)
+		inputText = allCaps(inputText)
 		message = 'Capitalize every character'
 
 	#* Method for Removing new lines
-	elif removeNewLinesVal == 'on':
+	if removeNewLinesVal == 'on':
 		# def removeNewLines(str):
 			# return "".join(list(filter((lambda v: v != '\n' and v!='\r'), list(str))))
 		analyzed = ""
@@ -67,36 +66,36 @@ def analyze(request):
 			if char != "\n" and char != "\r":
 				analyzed = analyzed + char
 
-		print(analyzed)
-		print(inputText)
 		# outputText = removeNewLines(inputText)
-		outputText = analyzed
+		inputText = analyzed
 		message = 'Capitalize every character'
 
 
 	#* Method for Removing extra space
-	elif removeExtraSpaceVal == 'on':
+	if removeExtraSpaceVal == 'on':
 		def removeExtraSpace(str):
 			return " ".join(str.split())
 			
-		outputText = removeExtraSpace(inputText)
+		inputText = removeExtraSpace(inputText)
 		message = 'Capitalize every character'
 
 	#* Method for Removing extra space
-	elif charCountVal == 'on':
+	if charCountVal == 'on':
 		def charCount(str):
 			return len("".join(list(filter((lambda v: v != ' '), list(str)))))
 			
-		outputText = charCount(inputText)
-		print(outputText)
+		inputText = charCount(inputText)
+		# print(outputText)
 		message = 'Capitalize every character'
 
-	#* Error message 
-	else:
-		outputText = inputText
+	# #* Error message
+	
+	if(remmovePuncVal != "on" and removeNewLinesVal!="on" and removeExtraSpaceVal!="on" and allCapsVal!="on"):
+		inputText = unChangedInput
 		message = 'Operation not selected'
 
-	output = {'input': inputText, 'result': outputText, 'message': message }
+
+	output = {'input': unChangedInput, 'result': inputText, 'message': message }
 	return render(request, 'output.html',output )
 
 
